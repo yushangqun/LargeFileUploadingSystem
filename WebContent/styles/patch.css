@@ -1,0 +1,24 @@
+html, body, p, pre, q, blockquote, div, th, td{
+    color: #333;
+}
+a, a:link, a:visited, a:active { 
+	color: #000;
+}
+div#top-menu-adj{
+	background: #2263c6;
+}
+div#top-menu ul li a{
+	background: url(images/tab_hov.gif) no-repeat 0 0;
+}
+div#top-menu ul li a:hover{
+	background: url(images/tab.gif) no-repeat 0 1px;
+}
+div#top-menu ul li.current a{
+	background: url(images/tab.gif) no-repeat 0 1px;
+}
+div#top-menu ul li.current a:hover{
+	background: url(images/tab.gif) no-repeat 0 1px;
+}
+div#loginfo li a{
+	color: #333;
+}

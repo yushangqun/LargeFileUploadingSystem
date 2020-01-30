@@ -1,0 +1,72 @@
+body#tree{
+	background: #fff;
+	text-align: left;
+	padding: 20px;
+}
+
+dl.tree{
+}
+dl.tree dt, dl.tree dd{
+	line-height: 18px !important;
+	text-indent: 35px !important;
+}
+dl.tree span{
+	display: block;
+	margin: 0;
+	padding: 0;
+}
+* html dl.tree span{
+	width: 100%;
+}
+dl.tree dt{
+	height: 18px !important;
+	background: url(images/tree_cross.gif) no-repeat 8px 0;
+	border: 0 !important;
+}
+dl.tree dd{
+	margin-left: 16px !important;
+	background: url(images/tree_ct.gif) repeat-y 8px 0;
+	border: 0 !important;
+}
+
+dl.on dt span{
+	background: url(images/tree_on.gif) no-repeat 4px 4px;
+}
+dl.on dd{
+	display: block;
+}
+dl.off dt span{
+	background: url(images/tree_off.gif) no-repeat 4px 4px;
+}
+dl.off dd{
+	display: none;
+}
+dl.tree dd.leaf span{
+	background: url(images/tree_cross.gif) no-repeat 8px 0;
+}
+
+dl.last dt{
+	background: url(images/tree_last.gif) no-repeat 8px 0;
+}
+dl.tree dd.last span{
+	background: url(images/tree_last.gif) no-repeat 8px 0;
+}
+dl.off dt.last{
+	background: url(images/tree_last.gif) no-repeat 8px 0;
+}
+dl.tree dt.root{
+	background: url(images/tree_last.gif) no-repeat 8px 0;
+}
+
+/* Customize Icons Goes Here */
+dl.tree dt.root span span{
+	background: url(images/tree_root.gif) no-repeat 16px 0;
+	text-indent: 35px !important;
+}
+dl.tree dt.node span span{
+	background: url(images/tree_node.gif) no-repeat 16px 0;
+	text-indent: 35px !important;
+}
+dl.tree dd.leaf span span{
+	background: url(images/tree_leaf.gif) no-repeat 16px 0;
+}

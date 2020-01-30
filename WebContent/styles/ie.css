@@ -1,0 +1,30 @@
+body table.expert tfoot td{
+	border-top: 0;
+	background-image: url(images/dotted.gif);
+	background-position: 0 0;
+	background-repeat: repeat-x;	
+}
+p#footer{
+	border-top: 0;
+	background-image: url(images/dotted.gif);
+	background-position: 0 0;
+	background-repeat: repeat-x;
+}
+body#ptt div#global-wrapper div.qy{
+	background: url(images/qiye_header.jpg) no-repeat 0 0;
+}
+body#ptt div#global-wrapper div.yh{
+	background: url(images/user_header.jpg) no-repeat 0 0;
+}
+body#ptt #floater{
+	background: none;
+	filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../styles/images/fixer.png', sizingMethod='scale');
+}
+ul#tab-holder{
+	text-align: left;
+	padding-top: 9px;
+	padding-left: 0;
+	width: 95%;
+}
+table.expert{
+}

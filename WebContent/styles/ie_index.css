@@ -1,0 +1,4 @@
+body#ptt div#floater{
+	background: none;
+	filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='styles/images/fixer.png', sizingMethod='scale');
+}
