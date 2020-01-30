@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-2.5.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+    http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" default-autowire="byName">
+
+	<!-- application init -->
+	<context:property-placeholder location="classpath:*.properties" />
+	 
+ 	<!-- JNDI数据源配置1 -->
+	
+	<bean id="dataSource"
+		class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		p:driverClass="${jdbc.driverClass}"
+		p:jdbcUrl="${jdbc.url}"
+		p:user="${jdbc.username}"
+		p:password="${jdbc.password}"
+
+		p:maxPoolSize="${c3p0.maxPoolSize}"
+		p:minPoolSize="${c3p0.minPoolSize}"
+		p:initialPoolSize="${c3p0.initialPoolSize}"
+		p:checkoutTimeout="${c3p0.checkoutTimeout}"
+		p:maxStatements="${c3p0.maxStatements}"
+		p:idleConnectionTestPeriod="${c3p0.idleConnectionTestPeriod}"
+		p:acquireIncrement="${c3p0.acquireIncrement}"
+		p:maxIdleTime="${c3p0.maxIdleTime}"
+		p:numHelperThreads="${c3p0.numHelperThreads}"
+		destroy-method="close"
+	/>
+	
+	
+	<!--hibernate的sessionFactory的设置-->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<!--hibernate的modle文件的存放目录-->
+		<property name="packagesToScan">
+			<list>
+				<value>com.**.mapping</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.cache.use_query_cache">false</prop>
+				<prop key="hibernate.cache.provider_class">org.hibernate.cache.HashtableCacheProvider</prop>
+                <prop key="hibernate.jdbc.batch_size">0</prop>
+                <prop key="hibernate.jdbc.fetch_size">50</prop>
+                <prop key="hibernate.connection.release_mode">after_statement</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="connection.autocommit">true</prop>
+                <prop key="c3p0.testConnectionOnCheckout">true</prop>
+            </props>
+		</property>
+	</bean>
+	
+	<!-- Hibernate事务处理 -->
+	<bean id="txManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="get*" />
+			<tx:method name="query*" />
+			<tx:method name="add*" />
+			<tx:method name="update*" />
+			<tx:method name="delete*" />
+			<tx:method name="*" />
+		</tx:attributes>
+	</tx:advice>
+	
+	    <!-- Enable configuration of transactional behavior based on annotations -->
+	<tx:annotation-driven transaction-manager="txManager" />
+	
+	<aop:config>
+        <aop:advisor advice-ref="txAdvice" pointcut="execution(* com.notary.web.*.*(..))"/>
+	</aop:config>
+
+    <!-- JDBC事务处理 -->
+	<bean id="transactionManagerJdbc"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="baseTxProxy" lazy-init="true" abstract="true"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="transactionManager">
+			<ref bean="transactionManagerJdbc" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="*">PROPAGATION_REQUIRED,-Exception</prop>
+			</props>
+		</property>
+	</bean>
+
+    
+	
+</beans>
